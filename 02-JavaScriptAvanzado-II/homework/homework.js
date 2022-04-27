@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 function counter() {
   // Retorna una funcion que cuando sea invocada retorne un valor creciente.
@@ -7,6 +7,12 @@ function counter() {
   // ejemplo: const newCounter = counter();
   // newCounter(); // 1
   // newCounter(); // 2
+
+  var contador = 0;
+  return function () {
+    console.log(contador++);
+    return contador;
+  };
 }
 
 function cacheFunction(cb) {
@@ -26,24 +32,25 @@ function cacheFunction(cb) {
 // Bind
 
 var instructor = {
-  nombre: "Franco",
-  edad: 25
-}
+  nombre: 'Franco',
+  edad: 25,
+};
 
 var alumno = {
-  nombre: "Juan",
-  curso: "FullStack"
-}
+  nombre: 'Juan',
+  curso: 'FullStack',
+};
 
-function getNombre(){
+function getNombre() {
   return this.nombre;
 }
- // Escribir código, sin modificar lo que ya se encuentra escrito arriba, para poder llamar al método getNombre para obtener primero el nombre del instructor y luego para obtener el nombre del alumno.
+// Escribir código, sin modificar lo que ya se encuentra escrito arriba, para poder llamar al método getNombre para obtener primero el nombre del instructor y luego para obtener el nombre del alumno.
 // Modificar los undefined por el código correspondiente en cada caso
 // Pista, tenes que bindear el this!
-let getNombreInstructor = undefined;
-let getNombreAlumno = undefined;
-
+let getNombreInstructor = getNombre.bind(instructor);
+getNombreInstructor();
+let getNombreAlumno = getNombre.bind(alumno);
+getNombreAlumno();
 
 /*Guardar en las siguientes tres variables una función que devuelva una cadena utilizando la función "crearCadena"
 y el delimitador especificado. La idea es realizarlo con la función bind para poder volver a utilizarlo múltiples veces luego:
@@ -54,20 +61,19 @@ y el delimitador especificado. La idea es realizarlo con la función bind para p
 
 Esto nos va a permitir llamar por ejemplo al método "textoAsteriscos" únicamente pasándole un argumento en vez de los tres que recibe "crearCadena"
 */
-function crearCadena(delimitadorIzquierda, delimitadorDerecha, cadena){
-    return delimitadorIzquierda + cadena + delimitadorDerecha;
+function crearCadena(delimitadorIzquierda, delimitadorDerecha, cadena) {
+  return delimitadorIzquierda + cadena + delimitadorDerecha;
 }
 
 // Modificar los undefined por el código correspondiente en cada caso
 // Pista, tenes que usar bind para "bindear" algunos parámetros de la función crearCadena.
 
-let textoAsteriscos = undefined;
-
-let textoGuiones = undefined;
-
-let textoUnderscore = undefined;
-
-
+let textoAsteriscos = crearCadena.bind(this, '*', '*');
+textoAsteriscos();
+let textoGuiones = crearCadena.bind(this, '-', '-');
+textoGuiones();
+let textoUnderscore = crearCadena.bind(this, '_', '_');
+textoUnderscore();
 
 // No modifiquen nada debajo de esta linea
 // --------------------------------
