@@ -13,13 +13,23 @@ function BinarioADecimal(num) {
 
 function DecimalABinario(num) {
   // tu codigo aca
-  let bin = [];
+  /* let bin = [];
 
   while (num / 2 !== 0) {
     bin.unshift(num % 2);
     num = Math.floor(num / 2);
   }
   return bin.join('');
+  */
+
+  /*let binario = '';
+  while (num != 0) {
+    let resto = num % 2;
+    num = parseInt(num / 2);
+    binario = resto + binario;
+  } */
+
+  return num.toString(2);
 }
 
 module.exports = {
