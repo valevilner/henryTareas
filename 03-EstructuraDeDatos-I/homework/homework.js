@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 // Las funciones nFactoria y nFibonacci deben resolverlas
 // usando recursión. Una vez realizadas de esa forma pueden probar hacerlas
 // de forma iterativa pero esto último no es obligatorio.
@@ -7,6 +7,11 @@ function nFactorial(n) {
   // devolvé el factorial de n (n!)
   // ej:
   // el factorial de 3 es 6 (3 * 2 * 1)
+  if (n === 0) {
+    return 1;
+  } else {
+    return nFactorial(n - 1) * n;
+  }
 }
 
 function nFibonacci(n) {
@@ -15,7 +20,19 @@ function nFibonacci(n) {
   // nFibonacci(0) // 0  // el elemento 0 es cero
   // nFibonacci(1) // 1 // el elemento 1 es 1
   // nFibonacci(6) // 1 // el elemento 6 es 8
+  let a = 0;
+  let b = 1;
+  let c = 0;
+  if (n === 1) {
+    return 1;
+  }
+  for (let i = 0; i < n - 1; i++) {
+    c = a + b;
+    a = b;
+    b = c;
+  }
 
+  return c;
 }
 
 // Para esta parte no es necesario utilizar recursión.
@@ -25,7 +42,23 @@ function nFibonacci(n) {
 // size: Devuelve el número de elementos que contiene la queue.
 
 function Queue() {
+  const data = [];
 
+  this.enqueue = (dato) => {
+    data.push(dato);
+  };
+
+  this.dequeue = () => {
+    if (data.length === 0) {
+      return undefined;
+    } else {
+      return data.shift();
+    }
+  };
+
+  this.size = () => {
+    return data.length;
+  };
 }
 
 // No modifiquen nada debajo de esta linea
@@ -34,5 +67,5 @@ function Queue() {
 module.exports = {
   Queue,
   nFactorial,
-  nFibonacci
+  nFibonacci,
 };
