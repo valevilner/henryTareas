@@ -1,4 +1,7 @@
-'use strict'
+'use strict';
+
+const { has } = require('@11ty/eleventy/src/TemplateCache');
+
 // Implementa la clase LinkedList
 // tiene metodos `add`, `remove`, y `search`
 // add: Agrega un nuevo nodo en el final de la lista
@@ -9,31 +12,113 @@
 // Ej:         Head --> 1
 // remove():   Head --> null y devuelve 1
 // search: Busca un valor dentro de la lista. Puede recibir un valor o una función. Si no hubiera resultados, devuelve null.
-
-function LinkedList() {
-
+function Node(value) {
+  this.value = value;
+  this.next = null;
 }
 
-function Node(value){
+class LinkedList {
+  constructor() {
+    this.head = null;
 
+    this.add = (nodo) => {
+      let node = new Node(nodo);
+      let current = this.head;
+      if (!current) {
+        this.head = node;
+        return node;
+      } else {
+        while (current.next) {
+          current = current.next;
+        }
+        current.next = node;
+        return node;
+      }
+    };
+
+    this.remove = () => {
+      if (this.head !== null) {
+        let current = this.head;
+        let valor = current.value;
+        if (current.next === null) {
+          this.head = null;
+        } else {
+          while (current.next) {
+            if (current.next.next === null) {
+              valor = current.next.value;
+              current.next = null;
+            } else {
+              current = current.next;
+            }
+          }
+        }
+        return valor;
+      } else {
+        return null;
+      }
+    };
+
+    this.search = (valor) => {
+      let current = this.head;
+      let res = null;
+      while (current) {
+        if (typeof valor === 'function' && valor(current.value)) {
+          res = current.value;
+        }
+        if (typeof valor === 'string' && current.value === valor) {
+          res = current.value;
+        }
+        current = current.next;
+      }
+      return res;
+    };
+  }
 }
 
 // Hash Table( ver información en: https://es.wikipedia.org/wiki/Tabla_hash)
 // Una Hash table contiene un arreglo de "contenedores" o buckets donde puede guardar información.
 // Para este ejercicio, generar 35 buckets para la Hash Table, y realizar los métodos, get, hasKey
 // Para almacenar un valor asociado a una key (string):
-//    - Se pasa ese valor a la función hash(Pista: usar la función charCodeAt), que determina la posición en que debe ir en el arreglo. 
-//    - Luego el elemento se inserta(llamando al método set) en la posición(índice) devuelta. 
+//    - Se pasa ese valor a la función hash(Pista: usar la función charCodeAt), que determina la posición en que debe ir en el arreglo.
+//    - Luego el elemento se inserta(llamando al método set) en la posición(índice) devuelta.
 // Para buscar el valor por su key:
-//    - Sólo habrá que pasarle a la función hash la clave del elemento a buscar y ésta determinará la posición 
+//    - Sólo habrá que pasarle a la función hash la clave del elemento a buscar y ésta determinará la posición
 //      en que se encuentra.
 //    - Usar el número obtenido, para buscar(llamando al método get) el contenedor o bucket donde está el valor.
 //    - Retornar dicho valor.
 
 function HashTable() {
-
+  this.buckets = [];
+  this.numBuckets = 35;
 }
+HashTable.prototype.set = function (key, value) {
+  if (typeof key !== 'string') throw new TypeError('Keys must be strings');
 
+  let index = this.hash(key);
+
+  if (!this.buckets[index]) this.buckets[index] = {};
+
+  this.buckets[index][key] = value;
+};
+
+HashTable.prototype.get = function (key) {
+  let index = this.hash(key);
+
+  return this.buckets[index][key];
+};
+HashTable.prototype.hash = function (key) {
+  let hash = 0;
+  for (let i = 0; i < key.lenght; i++) {
+    hash = hash + key.charCodeAt(i);
+  }
+  return hash % this.numBuckets;
+};
+
+HashTable.prototype.hasKey = function (key) {
+  let index = this.hash(key);
+
+  return this.buckets[index].hasOwnProperty[key];
+};
 
 // No modifiquen nada debajo de esta linea
 // --------------------------------
@@ -41,5 +126,5 @@ function HashTable() {
 module.exports = {
   Node,
   LinkedList,
-  HashTable
+  HashTable,
 };
