@@ -31,7 +31,7 @@ function BinarySearchTree(value) {
     }
   };
   BinarySearchTree.prototype.contains = function (valor) {
-    if (!this.value === valor) {
+    if (this.value === valor) {
       return true;
     }
     if (valor > this.value) {
